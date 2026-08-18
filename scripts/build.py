@@ -34,6 +34,46 @@ def credited_ids(s):
     return list(dict.fromkeys(re.findall(pattern, r.text)))
 
 
+def extra_repo_advisories():
+    """Repository level advisories: published and credited, but never forwarded
+    to the global database, so the credit search cannot find them.
+
+    Format: one "owner/repo GHSA-id" per line, blank lines and # comments ignored.
+    """
+    path = ROOT / "advisories.txt"
+    if not path.exists():
+        return []
+    out = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        line = line.split("#", 1)[0].strip()
+        parts = line.split()
+        if len(parts) == 2:
+            out.append((parts[0], parts[1]))
+    return out
+
+
+def fetch_repo_level(s, repo, ghsa_id):
+    """Only returns an advisory that is published and where USER credit is accepted."""
+    r = s.get(f"{API}/repos/{repo}/security-advisories/{ghsa_id}", timeout=30)
+    if r.status_code != 200:
+        print(f"skip {ghsa_id}: HTTP {r.status_code}", file=sys.stderr)
+        return None
+    a = r.json()
+    if a.get("state") != "published" or a.get("withdrawn_at"):
+        print(f"skip {ghsa_id}: state={a.get('state')}", file=sys.stderr)
+        return None
+    accepted = any(
+        (c.get("user") or {}).get("login") == USER and c.get("state") == "accepted"
+        for c in a.get("credits_detailed") or []
+    )
+    if not accepted:
+        print(f"skip {ghsa_id}: credit not accepted", file=sys.stderr)
+        return None
+    a.setdefault("html_url", f"https://github.com/{repo}/security/advisories/{ghsa_id}")
+    a["_repo"] = repo
+    return a
+
+
 def fetch(s, ghsa_id):
     r = s.get(f"{API}/advisories/{ghsa_id}", timeout=30)
     if r.status_code != 200:
@@ -44,6 +84,22 @@ def fetch(s, ghsa_id):
         print(f"skip {ghsa_id}: not published", file=sys.stderr)
         return None
     return a
+
+
+def short_package(name):
+    if name.startswith("@"):
+        return name
+    for sep in ("/", ":"):
+        if sep in name:
+            name = name.rsplit(sep, 1)[-1]
+    return name
+
+
+def dir_slug(name):
+    """Filesystem safe directory name for a package. @budibase/server -> budibase."""
+    if name.startswith("@"):
+        return name[1:].split("/", 1)[0]
+    return short_package(name).replace("/", "-")
 
 
 def page(a):
@@ -59,8 +115,8 @@ def page(a):
         "|:--|:--|",
         f"| Advisory | [{a['ghsa_id']}]({a.get('html_url')}) |",
         f"| CVE | {a.get('cve_id') or 'not assigned'} |",
-        f"| Severity | {(a.get('severity') or '').capitalize()} ({cvss.get('score')}) |",
-        f"| CVSS vector | `{cvss.get('vector_string') or 'n/a'}` |",
+        f"| Severity | {(a.get('severity') or '').capitalize()}{f" ({cvss['score']})" if cvss.get('score') is not None else ' (no CVSS score published)'} |",
+        f"| CVSS vector | `{cvss.get('vector_string') or 'not published'}` |",
         f"| CWE | {cwes} |",
         f"| Published | {(a.get('published_at') or '')[:10]} |",
         "",
@@ -101,7 +157,8 @@ def index(entries):
     ]
     for e in entries:
         lines.append(
-            f"| [{e['name']}]({e['url']}) | `{e['package']}` | {e['score']:.1f} {e['severity']} "
+            f"| [{e['name']}]({e['url']}) | `{short_package(e['package'])}` "
+            f"| {f"{e['score']:.1f} {e['severity']}" if e['score'] is not None else e['severity']} "
             f"| {e['cwe']} | [read]({e['path']}) |"
         )
     lines += [
@@ -117,15 +174,22 @@ def main():
     ids = credited_ids(s)
     print(f"credited advisories: {len(ids)}", file=sys.stderr)
 
+    advisories = [(None, i) for i in ids]
+    seen = set(ids)
+    for repo, ghsa_id in extra_repo_advisories():
+        if ghsa_id not in seen:
+            advisories.append((repo, ghsa_id))
+            seen.add(ghsa_id)
+
     entries = []
-    for ghsa_id in ids:
-        a = fetch(s, ghsa_id)
+    for repo, ghsa_id in advisories:
+        a = fetch_repo_level(s, repo, ghsa_id) if repo else fetch(s, ghsa_id)
         if not a:
             continue
         packages = sorted({v["package"]["name"] for v in a.get("vulnerabilities") or [] if v.get("package")})
-        package = packages[0] if packages else "misc"
+        package = short_package(packages[0]) if packages else (repo or "misc").split("/")[-1]
         name = a.get("cve_id") or a["ghsa_id"]
-        rel = f"{package}/{name}.md"
+        rel = f"{dir_slug(package)}/{name}.md"
         out = ROOT / rel
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(page(a), encoding="utf-8")
@@ -134,7 +198,7 @@ def main():
             "name": name,
             "url": a.get("html_url"),
             "package": package,
-            "score": score if isinstance(score, (int, float)) else 0.0,
+            "score": score if isinstance(score, (int, float)) else None,
             "severity": (a.get("severity") or "").capitalize(),
             "cwe": (a.get("cwes") or [{}])[0].get("cwe_id", "n/a"),
             "path": rel,
@@ -142,7 +206,7 @@ def main():
 
     if not entries:
         raise SystemExit("nothing published, refusing to write an empty index")
-    entries.sort(key=lambda e: (-e["score"], e["package"]))
+    entries.sort(key=lambda e: (-(e["score"] if e["score"] is not None else -1), e["package"]))
     (ROOT / "README.md").write_text(index(entries), encoding="utf-8")
     print(f"wrote {len(entries)} advisory pages", file=sys.stderr)
 

@@ -1,0 +1,8 @@
+# Repository level advisories: published and credited, but never forwarded to the
+# global GitHub Advisory Database, so the credit search cannot find them.
+# The script still verifies each one is published and that the credit is accepted
+# before it renders. Format: owner/repo GHSA-id
+triggerdotdev/trigger.dev  GHSA-pqxw-g93w-hj9x
+triggerdotdev/trigger.dev  GHSA-59h8-w5q6-mfmp
+kestra-io/kestra           GHSA-r6v3-xxwj-9h42
+hatchet-dev/hatchet        GHSA-g26x-m427-f48f
