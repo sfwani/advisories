@@ -6,3 +6,5 @@ triggerdotdev/trigger.dev  GHSA-pqxw-g93w-hj9x
 triggerdotdev/trigger.dev  GHSA-59h8-w5q6-mfmp
 kestra-io/kestra           GHSA-r6v3-xxwj-9h42
 hatchet-dev/hatchet        GHSA-g26x-m427-f48f
+Budibase/budibase          GHSA-3c52-v5v2-3r56
+triggerdotdev/trigger.dev  GHSA-jc26-22qp-cgqj
