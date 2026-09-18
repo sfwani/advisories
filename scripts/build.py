@@ -16,6 +16,7 @@ import requests
 USER = os.environ.get("ADVISORY_CREDIT_USER", "sfwani")
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 API = "https://api.github.com"
+SITE = "https://sfwani.github.io"
 
 
 def session():
@@ -106,8 +107,11 @@ def page(a):
     name = a.get("cve_id") or a["ghsa_id"]
     cvss = a.get("cvss") or {}
     cwes = ", ".join(f"{c['cwe_id']} ({c['name']})" for c in a.get("cwes") or []) or "n/a"
+    slug = (a.get("cve_id") or a["ghsa_id"]).lower()
     lines = [
         f"# {name}",
+        "",
+        f"*Canonical version: <{SITE}/advisories/{slug}/>*",
         "",
         f"**{a['summary'].strip()}**",
         "",

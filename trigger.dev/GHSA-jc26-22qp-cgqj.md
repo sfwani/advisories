@@ -1,5 +1,7 @@
 # GHSA-jc26-22qp-cgqj
 
+*Canonical version: <https://sfwani.github.io/advisories/ghsa-jc26-22qp-cgqj/>*
+
 **Supervisor workload API lacks cross-tenant authentication**
 
 | | |

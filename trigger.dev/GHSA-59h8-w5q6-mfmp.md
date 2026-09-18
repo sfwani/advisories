@@ -1,5 +1,7 @@
 # GHSA-59h8-w5q6-mfmp
 
+*Canonical version: <https://sfwani.github.io/advisories/ghsa-59h8-w5q6-mfmp/>*
+
 **Unauthenticated Realtime Stream Data Injection via Run FriendlyId**
 
 | | |

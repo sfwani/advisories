@@ -1,5 +1,7 @@
 # GHSA-pqxw-g93w-hj9x
 
+*Canonical version: <https://sfwani.github.io/advisories/ghsa-pqxw-g93w-hj9x/>*
+
 **Self-Hosted Deployment: Default Secrets allow Unauthenticated Infrastructure Compromise**
 
 | | |
