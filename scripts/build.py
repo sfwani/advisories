@@ -103,11 +103,48 @@ def dir_slug(name):
     return short_package(name).replace("/", "-")
 
 
+# Kept in step with the same table in sfwani/sfwani and sfwani.github.io.
+# GHSA-pqxw-g93w-hj9x was published High with no CVSS score and no vector, in
+# v3 or v4, so nothing upstream can supply one. This vector is derived by hand
+# from the advisory's own text and computes to 9.0. Always rendered as mine,
+# never as the published figure.
+SELF_ASSESSED = {
+    "GHSA-pqxw-g93w-hj9x": {
+        "score": 9.0,
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:H/A:H",
+    },
+}
+
+
+def cvss_of(a):
+    """Return (score, vector, self_assessed) for one advisory payload."""
+    cvss = a.get("cvss") or {}
+    score, vector = cvss.get("score"), cvss.get("vector_string")
+    if not vector:
+        v3 = (a.get("cvss_severities") or {}).get("cvss_v3") or {}
+        score, vector = score if score is not None else v3.get("score"), v3.get("vector_string")
+    if isinstance(score, (int, float)) and vector:
+        return float(score), vector, False
+    sa = SELF_ASSESSED.get(a.get("ghsa_id"))
+    if sa:
+        return sa["score"], sa["vector"], True
+    return (float(score) if isinstance(score, (int, float)) else None), vector, False
+
+
 def page(a):
     name = a.get("cve_id") or a["ghsa_id"]
     cvss = a.get("cvss") or {}
     cwes = ", ".join(f"{c['cwe_id']} ({c['name']})" for c in a.get("cwes") or []) or "n/a"
     slug = (a.get("cve_id") or a["ghsa_id"]).lower()
+    score, vector, self_assessed = cvss_of(a)
+    sev = (a.get("severity") or "").capitalize()
+    if score is None:
+        sev_cell, vec_cell = f"{sev} (no CVSS score published)", "`not published`"
+    elif self_assessed:
+        sev_cell = f"{sev} ({score:.1f}, self-assessed)"
+        vec_cell = f"`{vector}` (self-assessed)"
+    else:
+        sev_cell, vec_cell = f"{sev} ({score})", f"`{vector}`"
     lines = [
         f"# {name}",
         "",
@@ -119,8 +156,8 @@ def page(a):
         "|:--|:--|",
         f"| Advisory | [{a['ghsa_id']}]({a.get('html_url')}) |",
         f"| CVE | {a.get('cve_id') or 'not assigned'} |",
-        f"| Severity | {(a.get('severity') or '').capitalize()}{f" ({cvss['score']})" if cvss.get('score') is not None else ' (no CVSS score published)'} |",
-        f"| CVSS vector | `{cvss.get('vector_string') or 'not published'}` |",
+        f"| Severity | {sev_cell} |",
+        f"| CVSS vector | {vec_cell} |",
         f"| CWE | {cwes} |",
         f"| Published | {(a.get('published_at') or '')[:10]} |",
         "",
@@ -162,11 +199,14 @@ def index(entries):
     for e in entries:
         lines.append(
             f"| [{e['name']}]({e['url']}) | `{short_package(e['package'])}` "
-            f"| {f"{e['score']:.1f} {e['severity']}" if e['score'] is not None else e['severity']} "
+            f"| {(f"{e['score']:.1f}{'*' if e['self_assessed'] else ''} {e['severity']}") if e['score'] is not None else e['severity']} "
             f"| {e['cwe']} | [read]({e['path']}) |"
         )
     lines += [
         "",
+        "\\* Scored by me, not by the coordinating database: published with a severity but no "
+        "CVSS score and no vector, in v3 or v4. The vector is on that advisory's own page."
+        if any(e.get("self_assessed") for e in entries) else "",
         "Reported by [@sfwani](https://github.com/sfwani). Rebuilt with `python scripts/build.py`.",
         "",
     ]
@@ -197,12 +237,13 @@ def main():
         out = ROOT / rel
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(page(a), encoding="utf-8")
-        score = (a.get("cvss") or {}).get("score")
+        score, _vector, self_assessed = cvss_of(a)
         entries.append({
             "name": name,
             "url": a.get("html_url"),
             "package": package,
-            "score": score if isinstance(score, (int, float)) else None,
+            "score": score,
+            "self_assessed": self_assessed,
             "severity": (a.get("severity") or "").capitalize(),
             "cwe": (a.get("cwes") or [{}])[0].get("cwe_id", "n/a"),
             "path": rel,

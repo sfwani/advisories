@@ -11,6 +11,7 @@ goes live.
 
 | Advisory | Project | CVSS | Class | Writeup |
 |:--|:--|:--|:--|:--|
+| [GHSA-pqxw-g93w-hj9x](https://github.com/triggerdotdev/trigger.dev/security/advisories/GHSA-pqxw-g93w-hj9x) | `trigger.dev` | 9.0* High | CWE-653 | [read](trigger.dev/GHSA-pqxw-g93w-hj9x.md) |
 | [CVE-2026-57516](https://github.com/advisories/GHSA-hhrp-gw25-jr43) | `ray` | 8.8 High | CWE-94 | [read](ray/CVE-2026-57516.md) |
 | [CVE-2026-45675](https://github.com/advisories/GHSA-h3ww-q6xx-w7x3) | `open-webui` | 8.1 High | CWE-269 | [read](open-webui/CVE-2026-45675.md) |
 | [GHSA-jc26-22qp-cgqj](https://github.com/triggerdotdev/trigger.dev/security/advisories/GHSA-jc26-22qp-cgqj) | `trigger.dev` | 7.9 High | CWE-306 | [read](trigger.dev/GHSA-jc26-22qp-cgqj.md) |
@@ -21,6 +22,6 @@ goes live.
 | [GHSA-59h8-w5q6-mfmp](https://github.com/triggerdotdev/trigger.dev/security/advisories/GHSA-59h8-w5q6-mfmp) | `trigger.dev` | 5.3 Medium | CWE-306 | [read](trigger.dev/GHSA-59h8-w5q6-mfmp.md) |
 | [CVE-2026-73301](https://github.com/advisories/GHSA-4qcj-m5wp-jmf4) | `@budibase/server` | 4.3 Medium | CWE-862 | [read](budibase/CVE-2026-73301.md) |
 | [CVE-2026-59715](https://github.com/advisories/GHSA-gmfw-g93r-vg53) | `open-webui` | 3.1 Low | CWE-306 | [read](open-webui/CVE-2026-59715.md) |
-| [GHSA-pqxw-g93w-hj9x](https://github.com/triggerdotdev/trigger.dev/security/advisories/GHSA-pqxw-g93w-hj9x) | `trigger.dev` | High | CWE-653 | [read](trigger.dev/GHSA-pqxw-g93w-hj9x.md) |
 
+\* Scored by me, not by the coordinating database: published with a severity but no CVSS score and no vector, in v3 or v4. The vector is on that advisory's own page.
 Reported by [@sfwani](https://github.com/sfwani). Rebuilt with `python scripts/build.py`.

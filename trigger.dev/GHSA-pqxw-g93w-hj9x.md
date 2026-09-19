@@ -8,8 +8,8 @@
 |:--|:--|
 | Advisory | [GHSA-pqxw-g93w-hj9x](https://github.com/triggerdotdev/trigger.dev/security/advisories/GHSA-pqxw-g93w-hj9x) |
 | CVE | not assigned |
-| Severity | High (no CVSS score published) |
-| CVSS vector | `not published` |
+| Severity | High (9.0, self-assessed) |
+| CVSS vector | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:H/A:H` (self-assessed) |
 | CWE | CWE-653 (Improper Isolation or Compartmentalization), CWE-1393 (Use of Default Password) |
 | Published | 2026-07-21 |
 
