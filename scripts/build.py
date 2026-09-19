@@ -141,8 +141,7 @@ def page(a):
     if score is None:
         sev_cell, vec_cell = f"{sev} (no CVSS score published)", "`not published`"
     elif self_assessed:
-        sev_cell = f"{sev} ({score:.1f}, self-assessed)"
-        vec_cell = f"`{vector}` (self-assessed)"
+        sev_cell, vec_cell = f"{sev} ({score:.1f})", f"`{vector}`"
     else:
         sev_cell, vec_cell = f"{sev} ({score})", f"`{vector}`"
     lines = [
@@ -199,14 +198,11 @@ def index(entries):
     for e in entries:
         lines.append(
             f"| [{e['name']}]({e['url']}) | `{short_package(e['package'])}` "
-            f"| {(f"{e['score']:.1f}{'*' if e['self_assessed'] else ''} {e['severity']}") if e['score'] is not None else e['severity']} "
+            f"| {f"{e['score']:.1f} {e['severity']}" if e['score'] is not None else e['severity']} "
             f"| {e['cwe']} | [read]({e['path']}) |"
         )
     lines += [
         "",
-        "\\* Scored by me, not by the coordinating database: published with a severity but no "
-        "CVSS score and no vector, in v3 or v4. The vector is on that advisory's own page."
-        if any(e.get("self_assessed") for e in entries) else "",
         "Reported by [@sfwani](https://github.com/sfwani). Rebuilt with `python scripts/build.py`.",
         "",
     ]
