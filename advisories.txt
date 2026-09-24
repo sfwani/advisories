@@ -8,3 +8,4 @@ kestra-io/kestra           GHSA-r6v3-xxwj-9h42
 hatchet-dev/hatchet        GHSA-g26x-m427-f48f
 Budibase/budibase          GHSA-3c52-v5v2-3r56
 triggerdotdev/trigger.dev  GHSA-jc26-22qp-cgqj
+TracecatHQ/tracecat        GHSA-8p4j-2mm9-rh78
