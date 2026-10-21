@@ -2,22 +2,22 @@
 
 *Canonical version: <https://sfwani.github.io/advisories/ghsa-pqxw-g93w-hj9x/>*
 
-**Self-Hosted Deployment: Default Secrets allow Unauthenticated Infrastructure Compromise**
+**Trigger.dev Self-Hosted Deployment: Default Secrets allow Unauthenticated Infrastructure Compromise**
 
 | | |
 |:--|:--|
-| Advisory | [GHSA-pqxw-g93w-hj9x](https://github.com/triggerdotdev/trigger.dev/security/advisories/GHSA-pqxw-g93w-hj9x) |
+| Advisory | [GHSA-pqxw-g93w-hj9x](https://github.com/advisories/GHSA-pqxw-g93w-hj9x) |
 | CVE | not assigned |
 | Severity | High (9.0) |
 | CVSS vector | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:H/A:H` |
 | CWE | CWE-653 (Improper Isolation or Compartmentalization), CWE-1393 (Use of Default Password) |
-| Published | 2026-07-21 |
+| Published | 2026-10-02 |
 
 ### Affected versions
 
 | Package | Ecosystem | Vulnerable | Fixed in |
 |:--|:--|:--|:--|
-| `trigger.dev` | npm | <= 4.5.5 | n/a |
+| `trigger.dev` | npm | <= 4.5.5 | 4.5.6 |
 
 ## Details
 
@@ -92,3 +92,10 @@ docker run --rm --network webapp curlimages/curl curl -s "http://default:passwor
 ## Impact
 
 Complete infrastructure compromise: all tenant data, API keys, encrypted secrets (decryptable with known ENCRYPTION_KEY), user accounts, cross-tenant access. Attacker can modify data, push backdoored Docker images to the registry, and manipulate job queues.
+
+## References
+
+* https://github.com/triggerdotdev/trigger.dev/security/advisories/GHSA-pqxw-g93w-hj9x
+* https://github.com/triggerdotdev/trigger.dev/pull/4316
+* https://github.com/triggerdotdev/trigger.dev/commit/6997aeb05e27d2db47f9eda01fdc8a17c81a1ae0
+* https://github.com/triggerdotdev/trigger.dev/releases/tag/v4.5.6

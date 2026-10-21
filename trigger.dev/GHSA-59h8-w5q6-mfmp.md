@@ -2,22 +2,22 @@
 
 *Canonical version: <https://sfwani.github.io/advisories/ghsa-59h8-w5q6-mfmp/>*
 
-**Unauthenticated Realtime Stream Data Injection via Run FriendlyId**
+**Trigger.dev: Unauthenticated Realtime Stream Data Injection via Run FriendlyId**
 
 | | |
 |:--|:--|
-| Advisory | [GHSA-59h8-w5q6-mfmp](https://github.com/triggerdotdev/trigger.dev/security/advisories/GHSA-59h8-w5q6-mfmp) |
+| Advisory | [GHSA-59h8-w5q6-mfmp](https://github.com/advisories/GHSA-59h8-w5q6-mfmp) |
 | CVE | not assigned |
 | Severity | Medium (5.3) |
 | CVSS vector | `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N` |
 | CWE | CWE-306 (Missing Authentication for Critical Function) |
-| Published | 2026-07-21 |
+| Published | 2026-10-02 |
 
 ### Affected versions
 
 | Package | Ecosystem | Vulnerable | Fixed in |
 |:--|:--|:--|:--|
-| `trigger.dev` | npm | <= 4.5.4 | n/a |
+| `trigger.dev` | npm | <= 4.5.4 | 4.5.5 |
 
 ## Details
 
@@ -45,3 +45,10 @@ curl -X POST "http://localhost:8030/realtime/v1/streams/run_KNOWN_ID/stream_1"  
 ## Impact
 
 Unauthenticated data injection into any run realtime stream. Cross-environment access (no scoping).
+
+## References
+
+* https://github.com/triggerdotdev/trigger.dev/security/advisories/GHSA-59h8-w5q6-mfmp
+* https://github.com/triggerdotdev/trigger.dev/pull/4250
+* https://github.com/triggerdotdev/trigger.dev/commit/73d966ad226548b5f96fb5b4fc6fa607a3b7b8f8
+* https://github.com/triggerdotdev/trigger.dev/releases/tag/v4.5.5
