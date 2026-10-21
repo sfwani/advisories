@@ -8,8 +8,8 @@
 |:--|:--|
 | Advisory | [GHSA-pqxw-g93w-hj9x](https://github.com/advisories/GHSA-pqxw-g93w-hj9x) |
 | CVE | not assigned |
-| Severity | High (9.0) |
-| CVSS vector | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:H/A:H` |
+| Severity | High (8.1) |
+| CVSS vector | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H` |
 | CWE | CWE-653 (Improper Isolation or Compartmentalization), CWE-1393 (Use of Default Password) |
 | Published | 2026-10-02 |
 

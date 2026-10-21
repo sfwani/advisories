@@ -104,14 +104,20 @@ def dir_slug(name):
 
 
 # Kept in step with the same table in sfwani/sfwani and sfwani.github.io.
-# GHSA-pqxw-g93w-hj9x was published High with no CVSS score and no vector, in
-# v3 or v4, so nothing upstream can supply one. This vector is derived by hand
-# from the advisory's own text and computes to 9.0. Always rendered as mine,
-# never as the published figure.
+# Some advisories were published with a severity label but no CVSS score or
+# vector (v3 or v4), so nothing upstream can supply one. These vectors are
+# derived by hand and kept inside the band the maintainer assigned.
+# GHSA-pqxw-g93w-hj9x computes to 8.1 (S:U), the exact vector GitHub assigned
+# to CVE-2026-45675; GHSA-42mf-vpmr-gw5r (ag2, shell=True command-filter
+# bypass to arbitrary OS command execution) computes to 9.8.
 SELF_ASSESSED = {
     "GHSA-pqxw-g93w-hj9x": {
-        "score": 9.0,
-        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:H/A:H",
+        "score": 8.1,
+        "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
+    },
+    "GHSA-42mf-vpmr-gw5r": {
+        "score": 9.8,
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
     },
 }
 

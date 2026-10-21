@@ -11,10 +11,11 @@ goes live.
 
 | Advisory | Project | CVSS | Class | Writeup |
 |:--|:--|:--|:--|:--|
-| [GHSA-pqxw-g93w-hj9x](https://github.com/advisories/GHSA-pqxw-g93w-hj9x) | `trigger.dev` | 9.0 High | CWE-653 | [read](trigger.dev/GHSA-pqxw-g93w-hj9x.md) |
+| [GHSA-42mf-vpmr-gw5r](https://github.com/ag2ai/ag2/security/advisories/GHSA-42mf-vpmr-gw5r) | `ag2` | 9.8 Critical | CWE-78 | [read](ag2/GHSA-42mf-vpmr-gw5r.md) |
 | [GHSA-v3vj-mch3-x6c2](https://github.com/omnigent-ai/omnigent/security/advisories/GHSA-v3vj-mch3-x6c2) | `omnigent` | 8.8 High | CWE-668 | [read](omnigent/GHSA-v3vj-mch3-x6c2.md) |
 | [CVE-2026-57516](https://github.com/advisories/GHSA-hhrp-gw25-jr43) | `ray` | 8.8 High | CWE-94 | [read](ray/CVE-2026-57516.md) |
 | [CVE-2026-45675](https://github.com/advisories/GHSA-h3ww-q6xx-w7x3) | `open-webui` | 8.1 High | CWE-269 | [read](open-webui/CVE-2026-45675.md) |
+| [GHSA-pqxw-g93w-hj9x](https://github.com/advisories/GHSA-pqxw-g93w-hj9x) | `trigger.dev` | 8.1 High | CWE-653 | [read](trigger.dev/GHSA-pqxw-g93w-hj9x.md) |
 | [GHSA-jc26-22qp-cgqj](https://github.com/triggerdotdev/trigger.dev/security/advisories/GHSA-jc26-22qp-cgqj) | `trigger.dev` | 7.9 High | CWE-306 | [read](trigger.dev/GHSA-jc26-22qp-cgqj.md) |
 | [GHSA-3c52-v5v2-3r56](https://github.com/Budibase/budibase/security/advisories/GHSA-3c52-v5v2-3r56) | `budibase` | 7.7 High | CWE-918 | [read](budibase/GHSA-3c52-v5v2-3r56.md) |
 | [CVE-2026-59714](https://github.com/advisories/GHSA-x2ff-v5v8-m75m) | `open-webui` | 7.1 High | CWE-862 | [read](open-webui/CVE-2026-59714.md) |

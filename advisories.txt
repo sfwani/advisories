@@ -11,3 +11,4 @@ triggerdotdev/trigger.dev  GHSA-jc26-22qp-cgqj
 TracecatHQ/tracecat        GHSA-8p4j-2mm9-rh78
 omnigent-ai/omnigent       GHSA-v3vj-mch3-x6c2
 directus/directus          GHSA-xf86-hfpm-92xr
+ag2ai/ag2                  GHSA-42mf-vpmr-gw5r
