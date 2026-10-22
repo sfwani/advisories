@@ -12,7 +12,7 @@ goes live.
 | Advisory | Project | CVSS | Class | Writeup |
 |:--|:--|:--|:--|:--|
 | [GHSA-24q6-6h89-f9p7](https://github.com/Significant-Gravitas/AutoGPT/security/advisories/GHSA-24q6-6h89-f9p7) | `autogpt-platform-backend` | 10.0 Critical | Authentication bypass (CWE-287) | [read](autogpt-platform-backend/GHSA-24q6-6h89-f9p7.md) |
-| [GHSA-42mf-vpmr-gw5r](https://github.com/ag2ai/ag2/security/advisories/GHSA-42mf-vpmr-gw5r) | `ag2` | 9.8 Critical | Command injection (CWE-78) | [read](ag2/GHSA-42mf-vpmr-gw5r.md) |
+| [GHSA-42mf-vpmr-gw5r](https://github.com/ag2ai/ag2/security/advisories/GHSA-42mf-vpmr-gw5r) | `ag2` | 9.9 Critical | Command injection (CWE-78) | [read](ag2/GHSA-42mf-vpmr-gw5r.md) |
 | [GHSA-jmr9-98g4-2phv](https://github.com/portainer/portainer/security/advisories/GHSA-jmr9-98g4-2phv) | `portainer` | 9.4 Critical | Access control (CWE-284) | [read](portainer/GHSA-jmr9-98g4-2phv.md) |
 | [CVE-2026-49950](https://github.com/xorbitsai/inference/security/advisories/GHSA-2hj6-h88x-mv4j) | `xinference` | 9.3 Critical | Missing authentication (CWE-306) | [read](xinference/CVE-2026-49950.md) |
 | [GHSA-v3vj-mch3-x6c2](https://github.com/omnigent-ai/omnigent/security/advisories/GHSA-v3vj-mch3-x6c2) | `omnigent` | 8.8 High | Resource exposure (CWE-668) | [read](omnigent/GHSA-v3vj-mch3-x6c2.md) |

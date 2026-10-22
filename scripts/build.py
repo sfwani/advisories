@@ -116,8 +116,8 @@ SELF_ASSESSED = {
         "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
     },
     "GHSA-42mf-vpmr-gw5r": {
-        "score": 9.8,
-        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "score": 9.9,
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H",
     },
     # ag2ai/ag2, second advisory: published High with no CVSS vector. Path
     # traversal in DiskKnowledgeStore (startswith containment bypassed by a

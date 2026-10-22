@@ -8,8 +8,8 @@
 |:--|:--|
 | Advisory | [GHSA-42mf-vpmr-gw5r](https://github.com/ag2ai/ag2/security/advisories/GHSA-42mf-vpmr-gw5r) |
 | CVE | not assigned |
-| Severity | Critical (9.8) |
-| CVSS vector | `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H` |
+| Severity | Critical (9.9) |
+| CVSS vector | `CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H` |
 | CWE | CWE-78 (Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')) |
 | Published | 2026-10-03 |
 
