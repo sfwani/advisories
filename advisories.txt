@@ -14,3 +14,10 @@ directus/directus          GHSA-xf86-hfpm-92xr
 ag2ai/ag2                  GHSA-42mf-vpmr-gw5r
 ag2ai/ag2                  GHSA-qrjx-72xx-xhmh
 xorbitsai/inference       GHSA-2hj6-h88x-mv4j
+Significant-Gravitas/AutoGPT  GHSA-24q6-6h89-f9p7
+Significant-Gravitas/AutoGPT  GHSA-57mf-wqwq-6g6x
+portainer/portainer           GHSA-jmr9-98g4-2phv
+Comfy-Org/ComfyUI             GHSA-rvxv-29p8-pxgq
+Comfy-Org/ComfyUI             GHSA-pj59-g5vv-74q4
+teableio/teable               GHSA-w677-p6hx-85vw
+teableio/teable               GHSA-jvm6-86c5-f8j8

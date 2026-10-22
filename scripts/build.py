@@ -142,6 +142,7 @@ CWE_LABELS = {
     "CWE-284": "Access control",
     "CWE-287": "Authentication bypass",
     "CWE-306": "Missing authentication",
+    "CWE-321": "Hard-coded crypto key",
     "CWE-352": "Cross site request forgery",
     "CWE-362": "Race condition",
     "CWE-434": "Unrestricted upload",
@@ -163,28 +164,40 @@ def cwe_label(cwe):
     return f"{name} ({cwe})" if name else cwe
 
 
+def _cvss_pick(obj, prefix):
+    """A (score, vector) from one CVSS node, only if it is a real base score on
+    the requested version. Guards against the 0.0 placeholder GitHub sometimes
+    stores next to a vector it has not fully computed."""
+    o = obj or {}
+    s, v = o.get("score"), o.get("vector_string")
+    if isinstance(s, (int, float)) and s > 0 and v and v.startswith(prefix):
+        return float(s), v
+    return None, None
+
+
 def cvss_of(a):
     """Return (score, vector, self_assessed) for one advisory payload.
 
-    Prefers a published v3.1 vector, then falls back to a published v4.0 vector
-    when that is all the maintainer supplied (GitHub increasingly scores on v4).
-    A v4 vector is still vendor sourced, so self_assessed stays False.
+    Priority: a published CVSS v3.1 base score, then a deliberate self
+    assessment, then a published CVSS v4.0 base score (GitHub increasingly
+    scores on v4). The self assessment wins over v4 on purpose: a curated v3.1
+    number inside the maintainer's band must not be replaced by a v4 vector a
+    database added later. The top level `cvss` node can hold either version.
     """
     cvss = a.get("cvss") or {}
-    score, vector = cvss.get("score"), cvss.get("vector_string")
     sev = a.get("cvss_severities") or {}
-    if not vector:
-        v3 = sev.get("cvss_v3") or {}
-        score, vector = (score if score is not None else v3.get("score")), v3.get("vector_string")
-    if not vector:
-        v4 = sev.get("cvss_v4") or {}
-        score, vector = (score if score is not None else v4.get("score")), v4.get("vector_string")
-    if isinstance(score, (int, float)) and vector:
-        return float(score), vector, False
+    for obj in (cvss, sev.get("cvss_v3")):
+        s, v = _cvss_pick(obj, "CVSS:3")
+        if s:
+            return s, v, False
     sa = SELF_ASSESSED.get(a.get("ghsa_id"))
     if sa:
         return sa["score"], sa["vector"], True
-    return (float(score) if isinstance(score, (int, float)) else None), vector, False
+    for obj in (cvss, sev.get("cvss_v4")):
+        s, v = _cvss_pick(obj, "CVSS:4")
+        if s:
+            return s, v, False
+    return None, None, False
 
 
 def page(a):
