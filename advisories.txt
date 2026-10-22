@@ -13,3 +13,4 @@ omnigent-ai/omnigent       GHSA-v3vj-mch3-x6c2
 directus/directus          GHSA-xf86-hfpm-92xr
 ag2ai/ag2                  GHSA-42mf-vpmr-gw5r
 ag2ai/ag2                  GHSA-qrjx-72xx-xhmh
+xorbitsai/inference       GHSA-2hj6-h88x-mv4j

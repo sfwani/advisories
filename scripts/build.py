@@ -164,12 +164,21 @@ def cwe_label(cwe):
 
 
 def cvss_of(a):
-    """Return (score, vector, self_assessed) for one advisory payload."""
+    """Return (score, vector, self_assessed) for one advisory payload.
+
+    Prefers a published v3.1 vector, then falls back to a published v4.0 vector
+    when that is all the maintainer supplied (GitHub increasingly scores on v4).
+    A v4 vector is still vendor sourced, so self_assessed stays False.
+    """
     cvss = a.get("cvss") or {}
     score, vector = cvss.get("score"), cvss.get("vector_string")
+    sev = a.get("cvss_severities") or {}
     if not vector:
-        v3 = (a.get("cvss_severities") or {}).get("cvss_v3") or {}
-        score, vector = score if score is not None else v3.get("score"), v3.get("vector_string")
+        v3 = sev.get("cvss_v3") or {}
+        score, vector = (score if score is not None else v3.get("score")), v3.get("vector_string")
+    if not vector:
+        v4 = sev.get("cvss_v4") or {}
+        score, vector = (score if score is not None else v4.get("score")), v4.get("vector_string")
     if isinstance(score, (int, float)) and vector:
         return float(score), vector, False
     sa = SELF_ASSESSED.get(a.get("ghsa_id"))
