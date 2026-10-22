@@ -119,7 +119,48 @@ SELF_ASSESSED = {
         "score": 9.8,
         "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
     },
+    # ag2ai/ag2, second advisory: published High with no CVSS vector. Path
+    # traversal in DiskKnowledgeStore (startswith containment bypassed by a
+    # prefix-sharing sibling). Score and vector taken verbatim from the
+    # advisory's own CVSS line, inside the maintainer's High band.
+    "GHSA-qrjx-72xx-xhmh": {
+        "score": 7.5,
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:N",
+    },
 }
+
+# Short, readable labels for the CWEs in this work, kept in step with the same
+# map in sfwani/sfwani and sfwani.github.io so the Class column reads the same
+# on every surface.
+CWE_LABELS = {
+    "CWE-22": "Path traversal",
+    "CWE-78": "Command injection",
+    "CWE-79": "Cross site scripting",
+    "CWE-94": "Code injection",
+    "CWE-200": "Information disclosure",
+    "CWE-269": "Privilege escalation",
+    "CWE-284": "Access control",
+    "CWE-287": "Authentication bypass",
+    "CWE-306": "Missing authentication",
+    "CWE-352": "Cross site request forgery",
+    "CWE-362": "Race condition",
+    "CWE-434": "Unrestricted upload",
+    "CWE-502": "Unsafe deserialization",
+    "CWE-639": "Insecure direct object reference",
+    "CWE-862": "Missing authorization",
+    "CWE-863": "Incorrect authorization",
+    "CWE-653": "Improper isolation",
+    "CWE-668": "Resource exposure",
+    "CWE-918": "Server side request forgery",
+    "CWE-1333": "Regex denial of service",
+}
+
+
+def cwe_label(cwe):
+    if not cwe or cwe == "n/a":
+        return "Other"
+    name = CWE_LABELS.get(cwe)
+    return f"{name} ({cwe})" if name else cwe
 
 
 def cvss_of(a):
@@ -205,7 +246,7 @@ def index(entries):
         lines.append(
             f"| [{e['name']}]({e['url']}) | `{short_package(e['package'])}` "
             f"| {f"{e['score']:.1f} {e['severity']}" if e['score'] is not None else e['severity']} "
-            f"| {e['cwe']} | [read]({e['path']}) |"
+            f"| {cwe_label(e['cwe'])} | [read]({e['path']}) |"
         )
     lines += [
         "",
